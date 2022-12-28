@@ -21,6 +21,25 @@ public class MrRobot {
 		setOrientation(Orientation.North);
 
 	}
+	
+	public String act(Character character) {
+
+		switch (character) {
+
+		case 'l':
+
+			rotateleft();
+
+		case 'r':
+
+			rotateRight();
+		case 'f':
+			walkForward();
+
+		}
+
+		return posisionStr.toString();
+	}
 
 	private void setMrRobotName(String name) {
 		mrRobotName = name;

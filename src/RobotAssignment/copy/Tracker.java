@@ -30,22 +30,48 @@ public class Tracker {
 	}
 
 	public Tracker() {
-		setMap(new Map());
-		setRobot(new MrRobot());
+		TrackerInIt();
+
 		Tracker();
 	}
 
-	private void Tracker() {
-
-		String input = GetUserInput(0);
-
-		String newPos = updateNewPos(input);
+	//maybe leave the initialisation of the MrRobot and Map be separate in own classes?
+	private void TrackerInIt() {
 		
+		//start on initialising map
+		String string = JOptionPane.showInputDialog(
+				"Please enter the map dimmension. \nacceptable vales should be in the form '<width>,<deepth>' where width and deepth are Integer values\nEntering 10,15 gives 10 width and 15 deepth");
+		int deepth, width;
+		try {
+			width = Integer.parseInt(string.split(",")[0]);
+			deepth = Integer.parseInt(string.split(",")[1]);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "unexpected char instead of integer value"+e.getMessage());
+		}// end of initialising map
+		
+		int xCord, yCord;
+		String  name = JOptionPane.showInputDialog(
+				"Please enter the robot name");
+		
+		
+		setMap(new Map(width,deepth));
+		setRobot(new MrRobot());
 
 	}
 
+	private void Tracker() {
+		while (true) {
+
+			String input = GetUserInput(0);
+
+			String newPos = updateNewPos(input);
+			JOptionPane.showMessageDialog(null, "New Posision: " + newPos);
+
+		}
+	}
+
 	private String GetUserInput(int index) {
-		if(index>=2) {
+		if (index >= 2) {
 			System.exit(0);
 		}
 		String input = JOptionPane.showInputDialog(
@@ -79,58 +105,28 @@ public class Tracker {
 	}
 
 	private String updateNewPos(String input) {
-
-		MrRobot tmpRobot = readNewPosStr(input);
-		this.robot=tmpRobot;
-		return tmpRobot.getPosision().toString();
-		
-
-	}
-
-	private MrRobot readNewPosStr(String input) {
 		MrRobot tmpRobot = robot;
 
 		int index = 0;
 
 		while (input.length() > index) {
-
+			tmpRobot.act(input.charAt(index));
+			index++;
 			try {
-				tmpRobot = act(input.charAt(index));
+
+				if (!withinBond(tmpRobot)) {
+					throw new Exception("Robot walked out of bounds. \nGood Luck next time");
+				}
 			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Robot walked out of bounds. \nGood Luck next time");
 				System.exit(0);
 			}
 
-			
-			
 		}
-		return tmpRobot;
+		setRobot(tmpRobot);
+		return robot.getPosision().toString();
 	}
 
-	private MrRobot act(Character character) throws Exception {
-
-		MrRobot robotTemp = robot;
-
-		switch (character) {
-
-		case 'l':
-
-			robotTemp.rotateleft();
-
-		case 'r':
-
-			robotTemp.rotateRight();
-		case 'f':
-			robotTemp.walkForward();
-			if (!withinBond(robotTemp)) {
-				throw new Exception("Robot walked out of bounds. \nGood Luck next time");
-			}
-
-		}
-
-		return robotTemp;
-	}
-
-	
 	private boolean withinBond(MrRobot robot) {
 		boolean withinBound = true;
 		if (robot.getPosision().getXCord() >= map.getWidth() || robot.getPosision().getXCord() < 0
