@@ -83,7 +83,7 @@ public class MrRobot {
 	public void walkForward() {
 		switch (orientationStr) {
 		case North:
-
+			
 			walkNorth();
 
 		case East:

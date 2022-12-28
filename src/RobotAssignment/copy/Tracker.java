@@ -36,81 +36,108 @@ public class Tracker {
 	}
 
 	private void Tracker() {
+
+		String input = GetUserInput(0);
+
+		String newPos = updateNewPos(input);
 		
-		String input = GetUserInput();
-		
-		input=input.toLowerCase();
-		checkUserInput(input);
-		String newPos = validateNewPos(input);
 
 	}
 
-	private String GetUserInput() {
-		String input=JOptionPane.showInputDialog("input movement");
-		//den ska ta emot user input
-		
-		return input;
-	}
-
-	private void checkUserInput(String input) {
-		// TODO Auto-generated method stub
-		boolean validate=true;
-		while (validate &&  input.length()<index) {
-
-			
-			
+	private String GetUserInput(int index) {
+		if(index>=2) {
+			System.exit(0);
 		}
+		String input = JOptionPane.showInputDialog(
+				"valid input movement \n 1: Input 'f' for walking forward \n 2: Input r to rotate right \n 3: Input l to rotate left");
+		// den ska ta emot user input
+		input = input.toLowerCase();
+		if (checkUserInput(input)) {
+			return input;
+		}
+
+		return GetUserInput(index++);
 	}
 
-	private String validateNewPos(String input) {
-		char steps[] = input.toCharArray();
-		Orientation orientation = this.robot.getOrientation();
-		String poString = robot.getPosision().getXCord() + ", " + robot.getPosision().getYCord();
-		
-		
-		
-		readNewPos(input);
-		
-
-		return null;
+	private boolean checkUserInput(String input) {
+		// TODO Auto-generated method stub
+		boolean validate = true;
+		int index = 0;
+		while (validate && input.length() > index) {
+			if (input.charAt(index) == 'l') {
+				index++;
+			} else if (input.charAt(index) == 'r') {
+				index++;
+			} else if (input.charAt(index) == 'f') {
+				index++;
+			} else {
+				JOptionPane.showMessageDialog(null, "Invalid command" + input.charAt(index) + "at index: " + index);
+				validate = false;
+			}
+		}
+		return validate;
 	}
 
-	private void readNewPos(String input) {
+	private String updateNewPos(String input) {
+
+		MrRobot tmpRobot = readNewPosStr(input);
+		this.robot=tmpRobot;
+		return tmpRobot.getPosision().toString();
+		
+
+	}
+
+	private MrRobot readNewPosStr(String input) {
+		MrRobot tmpRobot = robot;
 
 		int index = 0;
 
-		while (charArr.length > index) {
+		while (input.length() > index) {
 
-			act(input.charAt(index));
+			try {
+				tmpRobot = act(input.charAt(index));
+			} catch (Exception e) {
+				System.exit(0);
+			}
 
-			robot.walkForward();
+			
+			
 		}
+		return tmpRobot;
 	}
 
-	private MrRobot act(Character character ) {
-		
-		MrRobot robotTemp=robot;
-		
-		switch (character) {
-		
-			case 'l':
-				
-				robotTemp.rotateleft();
-				
-				
-			case 'r':
-				
-				robotTemp.rotateRight();
-			case 'f':
-				
-				robotTemp.walkForward();
-				
-			default:
-				false;
-			}
-		
-		
+	private MrRobot act(Character character) throws Exception {
 
+		MrRobot robotTemp = robot;
+
+		switch (character) {
+
+		case 'l':
+
+			robotTemp.rotateleft();
+
+		case 'r':
+
+			robotTemp.rotateRight();
+		case 'f':
+			robotTemp.walkForward();
+			if (!withinBond(robotTemp)) {
+				throw new Exception("Robot walked out of bounds. \nGood Luck next time");
+			}
+
+		}
+
+		return robotTemp;
+	}
+
+	
+	private boolean withinBond(MrRobot robot) {
+		boolean withinBound = true;
+		if (robot.getPosision().getXCord() >= map.getWidth() || robot.getPosision().getXCord() < 0
+				|| robot.getPosision().getYCord() >= map.getDeepth() || robot.getPosision().getYCord() < 0) {
+			withinBound = false;
+		}
+		return withinBound;
 	}
 
 	private void setRobot(MrRobot robot) {
