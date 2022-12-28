@@ -38,24 +38,13 @@ public class Tracker {
 	//maybe leave the initialisation of the MrRobot and Map be separate in own classes?
 	private void TrackerInIt() {
 		
-		//start on initialising map
-		String string = JOptionPane.showInputDialog(
-				"Please enter the map dimmension. \nacceptable vales should be in the form '<width>,<deepth>' where width and deepth are Integer values\nEntering 10,15 gives 10 width and 15 deepth");
-		int deepth, width;
-		try {
-			width = Integer.parseInt(string.split(",")[0]);
-			deepth = Integer.parseInt(string.split(",")[1]);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "unexpected char instead of integer value"+e.getMessage());
-		}// end of initialising map
-		
+		setMap(new Map());
+		setRobot(new MrRobot());
 		int xCord, yCord;
 		String  name = JOptionPane.showInputDialog(
 				"Please enter the robot name");
+
 		
-		
-		setMap(new Map(width,deepth));
-		setRobot(new MrRobot());
 
 	}
 
@@ -72,7 +61,15 @@ public class Tracker {
 
 	private String GetUserInput(int index) {
 		if (index >= 2) {
-			System.exit(0);
+			try {
+				throw new Exception();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Retry error: \nTotal 3 times.");
+				System.exit(0);
+			}
+			
+
+
 		}
 		String input = JOptionPane.showInputDialog(
 				"valid input movement \n 1: Input 'f' for walking forward \n 2: Input r to rotate right \n 3: Input l to rotate left");

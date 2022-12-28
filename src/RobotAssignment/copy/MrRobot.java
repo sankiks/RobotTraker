@@ -1,6 +1,5 @@
 package RobotAssignment.copy;
 
-
 import javax.swing.JOptionPane;
 
 public class MrRobot {
@@ -15,13 +14,65 @@ public class MrRobot {
 		setOrientation(orientation);
 	}
 
-	public MrRobot() {
-		setMrRobotName("MrRobot");
-		setPosision(new Posision(0, 0));
-		setOrientation(Orientation.North);
+	public MrRobot(String defaultStr) {
+
+		if (defaultStr.matches("default")) {
+
+			setMrRobotName("MrRobot");
+			setPosision(new Posision(0, 0));
+			setOrientation(Orientation.North);
+
+		} else {
+			setMrRobotName();
+			setPosision(3);
+			setOrientation();
+
+		}
 
 	}
-	
+
+	private void setPosision(int retryAttempt) {
+		int yCord, xCord;
+		
+		String string = JOptionPane.showInputDialog(
+				"Please enter the robot posision"
+				+ ". \nacceptable vales should be in the form '<width>,<deepth>' where width and deepth are Integer values\nEntering 10,15 gives 10 width and 15 deepth");
+		string = string.replace(" ", "");
+		if (retryAttempt <= 0) {
+			try {
+				throw new Exception();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null,
+						"Retry Error: setting map dimensions wrong 3 times.\nProgram terminates!");
+
+			} finally {
+				System.exit(0);
+			}
+		}
+		try {
+			xCord = Integer.parseInt(string.split(",")[0]);
+			yCord = Integer.parseInt(string.split(",")[1]);
+			setPosision(new Posision(xCord, yCord));
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "unexpected char instead of integer value" + e.getMessage());
+			retryAttempt--;
+			setPosision(retryAttempt);
+
+		} // end of initialising map
+		
+	}
+
+	private void setMrRobotName() {
+		String strName = JOptionPane.showInputDialog("Please type in Robot name");
+		if (strName.equals(null)) {
+			setMrRobotName("MrRobot");
+		} else {
+
+			setMrRobotName(strName);
+		}
+	}
+
 	public String act(Character character) {
 
 		switch (character) {
@@ -56,53 +107,52 @@ public class MrRobot {
 		posisionStr = posision;
 
 	}
-	
+
 	public void rotateRight() {
 		switch (orientationStr) {
 		case North:
 
-			orientationStr=Orientation.East;
+			orientationStr = Orientation.East;
 
 		case East:
 
-			orientationStr=Orientation.South;
+			orientationStr = Orientation.South;
 
 		case South:
 
-			orientationStr=Orientation.West;
+			orientationStr = Orientation.West;
 
 		case West:
 
-			orientationStr=Orientation.North;
+			orientationStr = Orientation.North;
 		}
-		
+
 	}
-	
-	
+
 	public void rotateleft() {
 		switch (orientationStr) {
 		case North:
 
-			orientationStr=Orientation.West;
+			orientationStr = Orientation.West;
 
 		case East:
 
-			orientationStr=Orientation.North;
+			orientationStr = Orientation.North;
 
 		case South:
 
-			orientationStr=Orientation.East;
+			orientationStr = Orientation.East;
 
 		case West:
 
-			orientationStr=Orientation.South;
-		}		
+			orientationStr = Orientation.South;
+		}
 	}
 
 	public void walkForward() {
 		switch (orientationStr) {
 		case North:
-			
+
 			walkNorth();
 
 		case East:
@@ -163,9 +213,12 @@ public class MrRobot {
 	}
 
 	public static void main(String[] args) {
-		String string;
-		string = JOptionPane.showInputDialog("hej");
-		JOptionPane.showMessageDialog(null, string);
+		// test case for map, test handling wrong input and program exit
+		// Map map=new Map();
+
+		// test white space input
+		Map map = new Map();
+
 	}
 
 }

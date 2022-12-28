@@ -1,29 +1,49 @@
 package RobotAssignment.copy;
 
+import javax.swing.JOptionPane;
+
 public class Map {
 
 	private int map[][];
 	private int width;
 	private int deepth;
 
-	public Map(int widthLength, int deepLength) {
-
-		setMapDimensions(widthLength, deepLength);
-	}
-
 	public Map() {
-
-		int defaultwidth = 10;
-		int defualtdeepth = 10;
-		setMapDimensions(defaultwidth, defualtdeepth);
+		// start on initialising map
+		setMapDimensions(3);
 
 	}
 
-	private void setMapDimensions(int width, int deepth) {
+	private void setMapDimensions(int repIndex) {
+		int deepth, width;
+		System.out.print(repIndex);
+		String string = JOptionPane.showInputDialog(
+				"Please enter the map dimmension. \nacceptable vales should be in the form '<width>,<deepth>' where width and deepth are Integer values\nEntering 10,15 gives 10 width and 15 deepth");
+		string = string.replace(" ", "");
+		if (repIndex <= 0) {
+			try {
+				throw new Exception();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null,
+						"Retry Error: setting map dimensions wrong 3 times.\nProgram terminates!");
 
-		setDeepth(deepth);
-		setWidth(width);
-		map = new int[getWidth()][getDeepth()];
+			} finally {
+				System.exit(0);
+			}
+		}
+		try {
+			width = Integer.parseInt(string.split(",")[0]);
+			deepth = Integer.parseInt(string.split(",")[1]);
+			map = new int[width][deepth];
+			setDeepth(map[0].length);
+			setWidth(map.length);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "unexpected char instead of integer value" + e.getMessage());
+			repIndex--;
+			setMapDimensions(repIndex);
+
+		} // end of initialising map
+		System.out.print(getDimentions());
 
 	}
 
