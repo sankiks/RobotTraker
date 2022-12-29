@@ -18,9 +18,8 @@ public class Map {
 		int deepth, width;
 		System.out.print(repIndex);
 		String string = JOptionPane.showInputDialog(
-				"Please enter the map dimmension. \nacceptable vales should be in the form '<width>,<deepth>' where width and deepth are Integer values\nEntering 10,15 gives 10 width and 15 deepth");
-		string = string.replace(" ", "");
-		if (repIndex <= 0) {
+				"Please enter the map dimmension. \nacceptable vales should be in the form '<width>,<deepth>' where width and deepth are Integer values\nEntering 10 15 gives 10 width and 15 deepth");
+		if (repIndex <= 1) {
 			try {
 				throw new Exception();
 			} catch (Exception e) {
@@ -32,8 +31,8 @@ public class Map {
 			}
 		}
 		try {
-			width = Integer.parseInt(string.split(",")[0]);
-			deepth = Integer.parseInt(string.split(",")[1]);
+			width = Integer.parseInt(string.split(" ")[0]);
+			deepth = Integer.parseInt(string.split(" ")[1]);
 			map = new int[width][deepth];
 			setDeepth(map[0].length);
 			setWidth(map.length);

@@ -24,40 +24,72 @@ public class MrRobot {
 
 		} else {
 			setMrRobotName();
-			setPosision(3);
-			setOrientation();
+			initialiseRobot(3);
+			
 
 		}
 
 	}
 
-	private void setPosision(int retryAttempt) {
-		int yCord, xCord;
+	private void setOrientation(String string) throws Exception {
+		if (!validateOrientation(string)) {
+			throw new Exception(" Invalid direction");
+		}
 		
-		String string = JOptionPane.showInputDialog(
-				"Please enter the robot posision"
-				+ ". \nacceptable vales should be in the form '<width>,<deepth>' where width and deepth are Integer values\nEntering 10,15 gives 10 width and 15 deepth");
-		string = string.replace(" ", "");
+	}
+
+	private boolean validateOrientation(String string) {
+		boolean valid= false;
+		string=string.toLowerCase();
+		switch (string.charAt(0)) {
+		case 'n':
+			setOrientation(Orientation.North);
+			valid=true;
+		case 'e':
+			setOrientation(Orientation.East);
+			valid=true;
+		case 's':
+			setOrientation(Orientation.South);
+			valid=true;
+		case 'w':
+			setOrientation(Orientation.West);
+			valid=true;
+		}
+		
+		return valid;
+	}
+	
+	
+	
+	private void initialiseRobot(int retryAttempt) {
+		int yCord, xCord;
 		if (retryAttempt <= 0) {
 			try {
 				throw new Exception();
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null,
-						"Retry Error: setting map dimensions wrong 3 times.\nProgram terminates!");
+						"Retry Error: setting robot corrdinates wrong 3 times.\nProgram terminates!");
 
 			} finally {
 				System.exit(0);
 			}
 		}
+		String string = JOptionPane.showInputDialog(
+				"Please enter the robot posision and direction"
+				+ ". \nacceptable vales should be in the form '<xCord> <yCord> <direction>' where width and deepth are Integer values\nEntering 10 15 N give Robot posision in 10,15 facing north.\nValid direction values are 'N, E, S, W'");
+		
+		
+	
 		try {
-			xCord = Integer.parseInt(string.split(",")[0]);
-			yCord = Integer.parseInt(string.split(",")[1]);
+			xCord = Integer.parseInt(string.split(" ")[0]);
+			yCord = Integer.parseInt(string.split(" ")[1]);
+			setOrientation(string.split("")[2]);
 			setPosision(new Posision(xCord, yCord));
 			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "unexpected char instead of integer value" + e.getMessage());
 			retryAttempt--;
-			setPosision(retryAttempt);
+			initialiseRobot(retryAttempt);
 
 		} // end of initialising map
 		
@@ -65,7 +97,7 @@ public class MrRobot {
 
 	private void setMrRobotName() {
 		String strName = JOptionPane.showInputDialog("Please type in Robot name");
-		if (strName.equals(null)) {
+		if (strName.equals(null)||strName.isBlank()) {
 			setMrRobotName("MrRobot");
 		} else {
 
@@ -211,14 +243,23 @@ public class MrRobot {
 		String orientation = "Orientation: " + getOrientation().toString() + ".";
 		return name + posString + orientation;
 	}
+	public String getReport() {
+		String str = getPosision().toString()+" "+getOrientation().toString();
+		return str;
+	}
 
 	public static void main(String[] args) {
 		// test case for map, test handling wrong input and program exit
 		// Map map=new Map();
 
-		// test white space input
-		Map map = new Map();
-
+		//
+		
+		 test white space input
+		//Map map = new Map();
+		
+		
+		
+		
 	}
 
 }

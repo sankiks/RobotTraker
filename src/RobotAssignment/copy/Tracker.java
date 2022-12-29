@@ -1,10 +1,7 @@
 package RobotAssignment.copy;
 
-import java.awt.Robot;
-
 import javax.swing.JOptionPane;
 
-import org.junit.validator.PublicClassValidator;
 
 public class Tracker {
 
@@ -14,44 +11,39 @@ public class Tracker {
 	public Tracker(Map map, MrRobot robot) {
 		setMap(map);
 		setRobot(robot);
-		Tracker();
+		tracker();
 	}
 
 	public Tracker(Map map) {
 		setMap(map);
-		setRobot(new MrRobot());
-		Tracker();
+		setRobot(new MrRobot("default"));
+		tracker();
 	}
 
 	public Tracker(MrRobot robot) {
 		setMap(new Map());
 		setRobot(robot);
-		Tracker();
+		tracker();
 	}
 
 	public Tracker() {
 		TrackerInIt();
 
-		Tracker();
+		tracker();
 	}
 
 	//maybe leave the initialisation of the MrRobot and Map be separate in own classes?
 	private void TrackerInIt() {
 		
 		setMap(new Map());
-		setRobot(new MrRobot());
-		int xCord, yCord;
-		String  name = JOptionPane.showInputDialog(
-				"Please enter the robot name");
-
+		setRobot(new MrRobot(""));
 		
-
 	}
 
-	private void Tracker() {
+	private void tracker() {
 		while (true) {
 
-			String input = GetUserInput(0);
+			String input = GetUserInput(3);
 
 			String newPos = updateNewPos(input);
 			JOptionPane.showMessageDialog(null, "New Posision: " + newPos);
@@ -60,7 +52,7 @@ public class Tracker {
 	}
 
 	private String GetUserInput(int index) {
-		if (index >= 2) {
+		if (index <=0) {
 			try {
 				throw new Exception();
 			} catch (Exception e) {
@@ -78,8 +70,8 @@ public class Tracker {
 		if (checkUserInput(input)) {
 			return input;
 		}
-
-		return GetUserInput(index++);
+		index--;
+		return GetUserInput(index);
 	}
 
 	private boolean checkUserInput(String input) {
@@ -143,5 +135,8 @@ public class Tracker {
 
 		this.map = map;
 	}
+	
+	
+	
 
 }

@@ -28,7 +28,7 @@ public class Posision {
 		return yCord;
 	}
 	public String toString() {
-		String posStr= getXCord()+", "+getYCord();
+		String posStr= getXCord()+" "+getYCord();
 		return posStr;
 		
 	}
