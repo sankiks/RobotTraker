@@ -2,7 +2,6 @@ package RobotAssignment.copy;
 
 import javax.swing.JOptionPane;
 
-
 public class Tracker {
 
 	private Map map;
@@ -32,15 +31,18 @@ public class Tracker {
 		tracker();
 	}
 
-	//maybe leave the initialisation of the MrRobot and Map be separate in own classes?
+	// maybe leave the initialisation of the MrRobot and Map be separate in own
+	// classes?
 	private void TrackerInIt() {
-		
+
 		setMap(new Map());
 		setRobot(new MrRobot(""));
-		
+		withinBond(robot);
+
 	}
 
 	private void tracker() {
+
 		while (true) {
 
 			String input = GetUserInput(3);
@@ -52,29 +54,27 @@ public class Tracker {
 	}
 
 	private String GetUserInput(int index) {
-		if (index <=0) {
+		if (index <= 0) {
 			try {
 				throw new Exception();
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Retry error: \nTotal 3 times.");
 				System.exit(0);
 			}
-			
-
 
 		}
 		String input = JOptionPane.showInputDialog(
 				"valid input movement \n 1: Input 'f' for walking forward \n 2: Input r to rotate right \n 3: Input l to rotate left");
 		// den ska ta emot user input
 		input = input.toLowerCase();
-		if (checkUserInput(input)) {
+		if (checkMovmentInput(input)) {
 			return input;
 		}
 		index--;
 		return GetUserInput(index);
 	}
 
-	private boolean checkUserInput(String input) {
+	private boolean checkMovmentInput(String input) {
 		// TODO Auto-generated method stub
 		boolean validate = true;
 		int index = 0;
@@ -95,34 +95,32 @@ public class Tracker {
 
 	private String updateNewPos(String input) {
 		MrRobot tmpRobot = robot;
-
+		String poString = "";
 		int index = 0;
 
 		while (input.length() > index) {
-			tmpRobot.act(input.charAt(index));
+			poString = tmpRobot.act(input.charAt(index));
 			index++;
-			try {
 
-				if (!withinBond(tmpRobot)) {
-					throw new Exception("Robot walked out of bounds. \nGood Luck next time");
-				}
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Robot walked out of bounds. \nGood Luck next time");
-				System.exit(0);
-			}
+			withinBond(tmpRobot);
 
 		}
 		setRobot(tmpRobot);
-		return robot.getPosision().toString();
+		return poString;
 	}
 
-	private boolean withinBond(MrRobot robot) {
-		boolean withinBound = true;
-		if (robot.getPosision().getXCord() >= map.getWidth() || robot.getPosision().getXCord() < 0
-				|| robot.getPosision().getYCord() >= map.getDeepth() || robot.getPosision().getYCord() < 0) {
-			withinBound = false;
+	private void withinBond(MrRobot robot) {
+		try {
+			if (robot.getPosision().getXCord() >= map.getWidth() || robot.getPosision().getXCord() < 0
+					|| robot.getPosision().getYCord() >= map.getDeepth() || robot.getPosision().getYCord() < 0) {
+				throw new Exception("Robot walked out of bounds. \nGood Luck next time");
+
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Robot walked out of bounds. \nGood Luck next time");
+			System.exit(0);
 		}
-		return withinBound;
+
 	}
 
 	private void setRobot(MrRobot robot) {
@@ -135,8 +133,5 @@ public class Tracker {
 
 		this.map = map;
 	}
-	
-	
-	
 
 }

@@ -13,12 +13,27 @@ public class Map {
 		setMapDimensions(3);
 
 	}
+	
+	public Map(int width,int depth) {
+		// start on initialising map
+		setMapDimensions(width,depth);
+
+	}
+	
+	private void setMapDimensions(int width, int depth) {
+		//for test purposes 
+		map = new int[width][deepth];
+		setDeepth(depth);
+		setWidth(width);
+		
+	}
 
 	private void setMapDimensions(int repIndex) {
 		int deepth, width;
 		System.out.print(repIndex);
+
 		String string = JOptionPane.showInputDialog(
-				"Please enter the map dimmension. \nacceptable vales should be in the form '<width>,<deepth>' where width and deepth are Integer values\nEntering 10 15 gives 10 width and 15 deepth");
+				"Please enter the map dimmension. \nAcceptable vales should be in the form '<width> <deepth>' where width and deepth are Integer values\nEntering 10 15 gives 10 width and 15 deepth");
 		if (repIndex <= 1) {
 			try {
 				throw new Exception();

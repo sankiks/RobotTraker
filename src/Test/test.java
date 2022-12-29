@@ -10,8 +10,8 @@ class test {
 
 	@Test
 	void test() {
-		Map map= new Map(5, 6);
-		
+		//Map map= new Map(5, 6); old constructor
+		Map map= new Map();
 		assertEquals( 6, map.getDeepth());
 		
 		
