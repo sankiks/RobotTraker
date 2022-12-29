@@ -252,9 +252,7 @@ public class MrRobot {
 		// test case for map, test handling wrong input and program exit
 		// Map map=new Map();
 
-		//
-		
-		 test white space input
+		// test white space input
 		//Map map = new Map();
 		
 		
