@@ -16,7 +16,7 @@ By then program will exit after error message is displayed.
 
 To read the program then go to RobotAssignment\src\RobotAssignment.Copy
 
-Class main is the start point where is run the main method and starting tracker(); and tracker start the program flow
+Class main is the start point where it runs the main method and start tracker();
 
 
 Documentation about classes and methods is made in javadoc generator and creates documentation in HTML pages.
