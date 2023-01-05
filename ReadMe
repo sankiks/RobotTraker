@@ -3,9 +3,12 @@ Robot Tracker&Controler
 The Program task is control a robot movements through user input and monitor if its position is within the map boundaries. 
 Information and directions to the user are displayed through pop up windows there the user can input different commands to control the robot.
 
-No extra configurations are needed and to start you can just run the jar by double clicking on it but for that you first need java runtime env
-installed on the computer.
+
+No extra configurations are needed and to start you can just run the jar by double clicking on the runable jar file "Runnable_tracker.jar". but for that you first need
+java runtime env installed on the computer.
 link here >>https://www.java.com/en/download/<<
+
+Just download and install and then double click on the jar.file
 
 
 After running the Jar file the program will guide you on how to input and what.
