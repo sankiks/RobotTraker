@@ -1,0 +1,29 @@
+Robot Tracker&Controler
+
+The Program task is control a robot movements through user input and monitor if its position is within the map boundaries. 
+Information and directions to the user are displayed through pop up windows there the user can input different commands to control the robot.
+
+No extra configurations are needed and to start you can just run the jar by double clicking on it but for that you first need java runtime env
+installed on the computer.
+link here >>https://www.java.com/en/download/<<
+
+
+After running the Jar file the program will guide you on how to input and what.
+Program will continue to run until the robot is out of bound of the map or user inputed wrong input 3 times consecutively. 
+By then program will exit after error message is displayed.
+
+
+
+To read the program then go to RobotAssignment\src\RobotAssignment.Copy
+
+Class main is the start point where is run the main method and starting tracker(); and tracker start the program flow
+
+
+Documentation about classes and methods is made in javadoc generator and creates documentation in HTML pages.
+Documentation can be found under RobotAssignment\doc\RobotAssignment\Copy.
+
+Unit testing was done in JUnit framework and can be found under RobotAssignment\src\Test
+
+
+
+
